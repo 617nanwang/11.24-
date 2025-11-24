@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>岁序无声，生日快乐</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        body { 
+            overflow: hidden; 
+            background: url("http://image.aibochinese.com/i/2025/11/24/xa0sa1.jpg") center/cover no-repeat fixed !important;
+            font-family: "Microsoft YaHei", "楷体", serif;
+            color: #e0e7ff;
+        }
+        .scene {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            perspective: 1200px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateY(5deg) rotateX(-3deg);
+            width: 90%;
+            max-width: 650px;
+            height: 600px;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 24px;
+            backdrop-filter: blur(8px);
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            overflow: hidden;
+            border: 1px solid rgba(96, 165, 250, 0.15);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        }
+        .scene:hover .card {
+            transform: translate(-50%, -50%) rotateY(8deg) rotateX(-5deg);
+        }
+        .card-crack {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='rgba(96, 165, 250, 0.1)' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            z-index: 1;
+            pointer-events: none;
+        }
+        .card-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+            gap: 25px;
+        }
+        .card-title {
+            font-size: 48px;
+            font-weight: 300;
+            color: #bfdbfe;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+        }
+        .wish-text {
+            font-size: 18px;
+            color: #a5b4fc;
+            line-height: 2.4;
+            max-width: 550px;
+            font-weight: 200;
+            letter-spacing: 1px;
+        }
+        .divider {
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #60a5fa, transparent);
+        }
+        .card-footer {
+            font-size: 14px;
+            color: #818cf8;
+            opacity: 0.7;
+            font-style: italic;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.6;
+        }
+        audio {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.3;
+            transition: opacity 0.3s;
+        }
+        audio:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+    <div class="scene">
+        <div class="card">
+            <div class="card-crack"></div>
+            <div class="card-content">
+                <h1 class="card-title">生日快乐</h1>
+                <p class="wish-text">
+                    又一年岁序更迭<br>
+                    愿你在往后的日子里<br>
+                    事事顺心、万事如意<br>
+                    我知道可能未来没有我陪在身旁<br>
+                    但我还是希望我最爱的女孩能够永远的开心下去<br>
+                    那些未说出口的遗憾<br>
+                    都化作往后的温柔铺垫<br>
+                    愿你有人心疼，有人偏爱<br>
+                    即使独行，也有星光相伴
+                </p >
+                <div class="divider"></div>
+                <div class="card-footer">岁无虚长，安度余生</div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="pianoMusic" loop preload="auto" controls>
+        <source src="https://cdn.jsdelivr.net/gh/audionautix/free-music@main/mp3/Sad_Piano.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.4 + 0.1;
+                this.color = `rgba(147, 197, 253, ${this.opacity})`;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+                this.draw();
+            }
+        }
+
+        class Meteor {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height * 0.3;
+                this.length = Math.random() * 80 + 40;
+                this.width = Math.random() * 1.5 + 0.5;
+                this.speedX = Math.random() * 3 + 2;
+                this.speedY = Math.random() * 3 + 2;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.color = `rgba(200, 220, 255, ${this.opacity})`;
+                this.tailOpacity = `rgba(200, 220, 255, ${this.opacity * 0.3})`;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - this.length * 0.3, this.y + this.length);
+                const gradient = ctx.createLinearGradient(this.x, this.y, this.x - this.length * 0.3, this.y + this.length);
+                gradient.addColorStop(0, this.color);
+                gradient.addColorStop(1, this.tailOpacity);
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = this.width;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.opacity -= 0.003;
+                this.color = `rgba(200, 220, 255, ${this.opacity})`;
+                this.tailOpacity = `rgba(200, 220, 255, ${this.opacity * 0.3})`;
+                this.draw();
+            }
+            isVisible() {
+                return this.opacity > 0 && this.y < canvas.height + 50;
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 120; i++) particles.push(new Particle());
+
+        const meteors = [];
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                meteors.push(new Meteor());
+            }
+        }, 3000);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => particle.update());
+            for (let i = meteors.length - 1; i >= 0; i--) {
+                if (meteors[i].isVisible()) {
+                    meteors[i].update();
+                } else {
+                    meteors.splice(i, 1);
+                }
+            }
+        }
+
+        document.body.addEventListener('click', () => {
+            const audio = document.getElementById('pianoMusic');
+            audio.play().catch(() => {});
+        }, { once: true });
+
+        animate();
+    </script>
+</body>
+</html>
